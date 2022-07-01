@@ -7,7 +7,7 @@ node_modules/
 .env
 # testing
 /coverage
-/app/hardhat.config.js
+/client/app/hardhat.config.js
 # production
 /build
 
