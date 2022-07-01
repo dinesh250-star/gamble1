@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Axios from "axios";
 import { dbActions } from "../../store/dbSlice";
+
 const Login = () => {
   const [userAccount, setUserAccount] = useState("");
   const dispatch = useDispatch();
@@ -42,12 +43,14 @@ const Login = () => {
   const connectMetamask = async () => {
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
+    
     }
   };
   return (
     <div>
       <button onClick={connectMetamask}>Connect To Metamask</button>
       <h1>Connected Wallet: {userAccount}</h1>
+   
     </div>
   );
 };
