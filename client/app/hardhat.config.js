@@ -14,7 +14,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 //c
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
-
+// same
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
