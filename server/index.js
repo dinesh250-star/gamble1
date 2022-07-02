@@ -80,5 +80,5 @@ app.post("/registration", (req, res) => {
   );
 });
 app.listen(3001, () => {
-  console.log("server is running");
+  console.log("server is runningg");
 });
