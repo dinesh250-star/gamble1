@@ -50,8 +50,8 @@ const Login = () => {
   };
   return (
     <div>
-      <button className={LoginCSS.loginbtn} onClick={connectMetamask}>Connect Wallet</button>
-      {/* <h1>Connected Wallet: {userAccount}</h1> */}
+      
+      {userAccount ?  <h1>Connected Wallet: {userAccount}</h1>  : <button className={LoginCSS.loginbtn} onClick={connectMetamask}>Connect Wallet</button> }
    
       
     </div>
