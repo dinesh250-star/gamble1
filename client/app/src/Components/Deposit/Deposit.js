@@ -3,7 +3,8 @@ import { ethers } from "ethers";
 import { useSelector } from "react-redux";
 //b
 import axios from "axios";
-import Gamble from "../../contracts/Gamble.sol";
+import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
+
 const Deposit = () => {
   const acc = useSelector((state) => state.db.userAcc);
   const [matic, setMatic] = useState(1);
