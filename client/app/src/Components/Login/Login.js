@@ -50,7 +50,7 @@ const Login = () => {
     <div>
       <button onClick={connectMetamask}>Connect To Metamask</button>
       <h1>Connected Wallet: {userAccount}</h1>
-      <h1>{process.env.REACT_APP_API}</h1>
+      
     </div>
   );
 };
