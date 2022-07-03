@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
 
+import DepositCSS from "./Deposit.module.css"
+
 
 
 
@@ -86,8 +88,8 @@ const Deposit = () => {
           onChange={storeMatic}
           value={matic}
         ></input>
-        <button type="submit" id="button1" disabled>
-          Deposit
+        <button type="submit" id="button1" >
+         Deposit
         </button>
       </form>
       <button onClick={getUserBalance}>Get balance of the User</button>
