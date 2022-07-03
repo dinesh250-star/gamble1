@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 import { useSelector } from "react-redux";
-//b
+//bbb
 import axios from "axios";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
 const Deposit = () => {
@@ -10,7 +10,7 @@ const Deposit = () => {
 
   const [getUBalance, setGetUBalance] = useState(0);
   const logInState = useSelector((state) => state.db.loggedIn);
-  const gambleAddress = "0x45c301cb797BfAbC889a61e3aE4f22519fE7A324";
+  const gambleAddress = "0xFAd82d73D50Daf5627d2D107f9acc24F58851c1e";
   const storeMatic = async (e) => {
     setMatic(e.target.value);
   };
