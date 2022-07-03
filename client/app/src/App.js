@@ -5,11 +5,13 @@ import Login from "./Components/Login/Login";
 import Deposit from "./Components/Deposit/Deposit";
 import Navbar from './Components/Navbar/Navbar'
 
+import Create from './Components/Create/Create'
 
 function App() {
   return (
     <div className="App">
       <Navbar/>
+      <Create/>
     </div>
   );
 }
