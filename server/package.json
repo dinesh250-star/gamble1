@@ -174,7 +174,6 @@
     "xdg-basedir": "^4.0.0",
     "yallist": "^4.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node index.js",
     "devStart": "nodemon index.js",
