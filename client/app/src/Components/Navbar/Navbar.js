@@ -2,6 +2,7 @@ import React from 'react'
 import NavbarCSS from './Navbar.module.css'
 import Login from '../Login/Login'
 import Deposit from '../Deposit/Deposit'
+import Withdraw from '../Withdraw/Withdraw'
 
 const Navbar = () => {
   return (
@@ -12,7 +13,7 @@ const Navbar = () => {
         
         <ul>
             <li><Deposit/></li>
-            <li>Return</li>
+            <li><Withdraw/></li>
             </ul>
             <Login/>
 </div>

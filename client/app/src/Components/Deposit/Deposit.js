@@ -95,6 +95,7 @@ const Deposit = () => {
       <button onClick={getUserBalance}>Get balance of the User</button>
       <h1>{getUBalance}</h1>
       <h1>{acc}</h1>
+     
     </div>
   );
 };
