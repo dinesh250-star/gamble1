@@ -9,12 +9,13 @@ const Create = () => {
     
     <div>
         <div className={CreateCSS.box}>
+          <form >
+
              <div className={CreateCSS.box1}>
 
 <div className={CreateCSS.box2}>
 
      <div className={CreateCSS.box3}>
-
                  <input type="checkbox" id="c1" name="coin" />
                  <label htmlFor="eth">                
                   <img src={eth} alt="" className={CreateCSS.eth}/>
@@ -35,15 +36,15 @@ const Create = () => {
               </div>
 </div>
          
-           <form className={CreateCSS.input}>
+           <div className={CreateCSS.input}>
    
                <label for="amount">Enter Amount</label>
                <input type="text" id="amount" name="amount"></input>
                <input type="button" value="+5" />
  
-            </form>
+            </div>
                 <input className={CreateCSS.btn} type="button" value="Create" />
-                  </div>
+                  </div></form>
          </div>
     
     
