@@ -77,21 +77,29 @@ const Deposit = () => {
     }
   };
   return (
-    <div>
+    <div className={DepositCSS.container}>
       <form onSubmit={submitHandler}>
         <input
           type="number"
           placeholder="Enter the matic"
           onChange={storeMatic}
           value={matic}
+          className={DepositCSS.form}
         ></input>
-        <button type="submit" id="button1" disabled>
-          Deposit
+
+        <button type="submit" id={DepositCSS.depositbtn} >
+         DEPOSIT
         </button>
-      </form>
-      <button onClick={getUserBalance}>Get balance of the User</button>
-      <h1>{getUBalance}</h1>
+
+      </form> 
+
+      
+      <span>{getUBalance}</span>
+      <button id={DepositCSS.bal} onClick={getUserBalance}>BALANCE</button>
+     
       <h1>{acc}</h1>
+      
+
     </div>
   );
 };

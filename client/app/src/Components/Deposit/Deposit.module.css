@@ -1,0 +1,48 @@
+
+.container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    
+}
+
+
+.form{
+
+    background: rgba(17, 161, 39, 0.439);
+}
+
+.form2{
+    width: 20%;
+}
+#depositbtn{
+  background: black;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+#depositbtn:hover{
+    background: white;
+    color: black;
+   
+}
+
+span{
+    background: rgba(17, 161, 39, 0.439);
+
+    color: black;
+    width: 20%;
+    margin-left: 90px;
+}
+
+#bal{
+    background:black ;
+    color: white;
+}
+
+#bal:hover{
+    background: white;
+    color: black;
+   
+}

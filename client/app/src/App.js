@@ -13,8 +13,11 @@ import Play from "./Components/Play/Play";
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Create />
+
+      <Navbar/>
+    
+    <Create/>
+
     </div>
   );
 }

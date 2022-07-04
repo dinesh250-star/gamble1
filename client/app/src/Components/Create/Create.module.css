@@ -56,15 +56,6 @@ border-radius: 5px;
 
 
 
-input [type="checkbox"]{
-/* width: 100px;
-height: 100px;
-left: 410px;
-top: 20px;
-
-border-radius: 5px; */
-    
-}
 
 
 .btc{
@@ -103,4 +94,9 @@ top: 380px;
 background: #44904C;
 border-radius: 14px;
 color: rgba(255, 255, 255, 0.749);
+}
+
+#amount{
+
+    background: #00000060;
 }

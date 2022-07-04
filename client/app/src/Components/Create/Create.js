@@ -5,6 +5,10 @@ import eth from './eth.png'
 import btc from './btc.png'
 
 const Create = () => {
+
+
+  
+
   return (
     
     <div>
@@ -16,8 +20,9 @@ const Create = () => {
 <div className={CreateCSS.box2}>
 
      <div className={CreateCSS.box3}>
-                 <input type="checkbox" id="c1" name="coin" />
-                 <label htmlFor="eth">                
+        <label htmlFor="eth"> 
+                 <input type="radio" id="c1" name="coin"  />
+                               
                   <img src={eth} alt="" className={CreateCSS.eth}/>
                   </label>
               </div>
@@ -25,26 +30,26 @@ const Create = () => {
             
               <div  className={CreateCSS.box3}>
 
-
-                 <input type="checkbox" id="c2" name="coin" />
-                 <label htmlFor="btc">
-
+<label htmlFor="btc"/>
+                 <input type="radio" id="c2" name="coin"  />
+                 
+              
                  <img src={btc} alt="" className={CreateCSS.btc} />
 
-                 </label>
+                
 
               </div>
 </div>
          
            <div className={CreateCSS.input}>
    
-               <label for="amount">Enter Amount</label>
-               <input type="text" id="amount" name="amount"></input>
-               <input type="button" value="+5" />
+               <button> </button>
+               <input type="number" id={CreateCSS.amount} placeholder="Enter amount"></input>
  
             </div>
                 <input className={CreateCSS.btn} type="button" value="Create" />
-                  </div></form>
+                  </div>
+                  </form>
          </div>
     
     
@@ -53,6 +58,6 @@ const Create = () => {
     
     </div>
   )
-}
+  }
 
 export default Create

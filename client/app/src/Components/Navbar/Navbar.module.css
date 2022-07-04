@@ -24,17 +24,12 @@ nav ul {
 
 }
 
-nav a{
+/* nav a{
     text-decoration: none;
     color: white;
     text-shadow: 2px 2px 2px 2px rgb(61, 58, 58);
-}
+} */
 
-.navbar li:hover{
-    transform: scale(1.080);
-    color: whitesmoke;
-    cursor: pointer;
-}
 
 h1 {
     color: white;
@@ -45,4 +40,5 @@ h1 {
 
 li {
     padding: 20px 20px;
+    width: 100%;
 }

@@ -5,10 +5,14 @@ import WithdrawCSS from "./Withdraw.module.css";
 
 const Withdraw = () => {
   return (
-    <div>
-      <button className={WithdrawCSS.withdrawbtn}>Withdraw</button>
-    </div>
-  );
-};
+
+          <div className={WithdrawCSS.box}> 
+        <button className={WithdrawCSS.withdrawbtn}>WITHDRAW</button>
+           </div>
+        
+      
+  )
+}
+
 
 export default Withdraw;
