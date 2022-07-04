@@ -8,7 +8,7 @@ import Withdraw from "./Components/Withdraw/Withdraw";
 import Create from './Components/Create/Create'
 import Main from './Components/Main/Main'
 import Lobby from './Components/Lobby/Lobby'
-
+import Play from './Components/Play/Play'
 
 function App() {
   return (
