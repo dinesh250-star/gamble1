@@ -10,21 +10,7 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
-app.put("/update", (request, res) => {
-  db.query(
-    "UPDATE user_info SET coins =  ? WHERE id = 1",
 
-    [2.111],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(result);
-        res.send(result);
-      }
-    }
-  );
-});
 app.put("/update/deposited_amount/:acc", (request, response) => {
   const matic = request.body.matic;
   const id = request.params["acc"];
@@ -52,6 +38,21 @@ app.put("/update/deposited_amount/:acc", (request, response) => {
             }
           }
         );
+      }
+    }
+  );
+});
+app.post("/withdraw", (req, res) => {
+  const acc = req.body.acc;
+  const value = req.body.value;
+  db.query(
+    "SELECT coins from user_info WHERE address = ?",
+    [acc],
+    (err, result) => {
+      if (result[0].coins >= value) {
+        res.send(true);
+      } else {
+        res.send(false);
       }
     }
   );

@@ -10,7 +10,7 @@ const Deposit = () => {
 
   const [getUBalance, setGetUBalance] = useState(0);
   const logInState = useSelector((state) => state.db.loggedIn);
-  const gambleAddress = "0x1B9CaADD0645F78DaaFdF6A53Fb61035457c9578";
+  const gambleAddress = "0x92265B57f08EF2F30dDd6d9CdCac1BD62C1A004b";
   const storeMatic = async (e) => {
     setMatic(e.target.value);
   };
@@ -19,14 +19,31 @@ const Deposit = () => {
     await DepositHandler();
     console.log("succ1");
   };
+  // const checkTransaction = async () => {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const contract = new ethers.Contract(gambleAddress, Gamble.abi, provider);
+
+  //   // contract.on("Deposit", (payer, amount) => {
+  //   //   if (payer) {
+  //   //     updateDepositInDb();
+  //   //     alert("Succesfully Deposited");
+  //   //   } else {
+  //   //     alert("Transaction failed");
+  //   //   }
+  //   // });
+  //   // provider.on("block", (blockNumber) => {
+  //   //   console.log(blockNumber);
+  //   // });
+  //   provider.waitForTransaction();
+  // };
   if (logInState) {
-    document.getElementById("button1").disabled = false;
+    document.getElementById("buttonDeposit").disabled = false;
   }
   const dataOfMatic = {
     matic: matic,
   };
   const updateDepositInDb = async () => {
-    axios
+    await axios
       .put(`http://localhost:3001/update/deposited_amount/${acc}`, {
         matic: matic,
       })
@@ -54,6 +71,9 @@ const Deposit = () => {
   // const updateV = async () => {
   //   axios.put(`http://localhost:3001/update`);
   // };
+  const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
   const DepositHandler = async () => {
     if (typeof window.ethereum !== "undefined" && logInState === true) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -63,14 +83,28 @@ const Deposit = () => {
       const transaction = await contract.deposit(acc, {
         value: ethers.utils.parseEther(matic.toString()),
       });
-      const receipt = await transaction.wait();
+
+      const receipt = await transaction.wait(1);
       console.log(receipt);
       if (receipt) {
-        await updateDepositInDb();
-        console.log("succ2");
+        updateDepositInDb();
       } else {
-        console.log("Couldnt complete transaction");
+        alert("transaction failed");
       }
+      // const contract2 = new ethers.Contract(
+      //   gambleAddress,
+      //   Gamble.abi,
+      //   provider
+      // );
+
+      // contract2.on("Deposit", (payer, amount) => {
+      //   if (!payer) {
+      //     alert("Transaction failed");
+      //   } else {
+      //     updateDepositInDb();
+      //     alert("Succesfully Deposited");
+      //   }
+      // });
     }
   };
   return (
@@ -82,13 +116,10 @@ const Deposit = () => {
           onChange={storeMatic}
           value={matic}
         ></input>
-        <button type="submit" id="button1" disabled>
+        <button type="submit" id="buttonDeposit" disabled>
           Deposit
         </button>
       </form>
-      <button onClick={getUserBalance}>Get balance of the User</button>
-      <h1>{getUBalance}</h1>
-      <h1>{acc}</h1>
     </div>
   );
 };

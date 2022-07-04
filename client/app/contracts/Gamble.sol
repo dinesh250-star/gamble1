@@ -6,7 +6,7 @@ pragma solidity ^0.8.4;
 contract Gamble {
   address owner;
   mapping(address => uint256) public deposited;  
-  
+  event Deposit(address payer,uint256 amount);
   constructor() {
     owner = msg.sender;
     
@@ -18,6 +18,7 @@ contract Gamble {
 
     function deposit(address _payer)public payable{
         deposited[_payer] += msg.value;
+        emit Deposit(_payer,msg.value);
     }
     function withdraw(uint256 _amount,address _user) public {
       require(_amount <= deposited[_user],"Not enough funds");
