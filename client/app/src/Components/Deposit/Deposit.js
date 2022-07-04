@@ -10,7 +10,7 @@ const Deposit = () => {
 
   const [getUBalance, setGetUBalance] = useState(0);
   const logInState = useSelector((state) => state.db.loggedIn);
-  const gambleAddress = "0x45c301cb797BfAbC889a61e3aE4f22519fE7A324";
+  const gambleAddress = "0x1B9CaADD0645F78DaaFdF6A53Fb61035457c9578";
   const storeMatic = async (e) => {
     setMatic(e.target.value);
   };
