@@ -87,7 +87,14 @@ flex-direction: column;
     justify-content: space-between;
 }
 
-button{
+.flip{
+    width: 120px;
+    padding: 10px 0;
+    border: 2.5px solid #424ae0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.reset{
     width: 120px;
     padding: 10px 0;
     border: 2.5px solid #424ae0;
