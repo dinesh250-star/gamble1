@@ -7,6 +7,11 @@ contract Gamble {
   address owner;
   mapping(address => uint256) public deposited;  
   event Deposit(address payer,uint256 amount);
+  event Copy(address account,uint256 amount);
+  event CheckBalance(address account,uint256 amount);
+  uint256 tempAmount;
+bool temp = false;
+  address payable public recepient = payable(0x1f16d5e592c32757AccE8EC799CBAa7D985570fF);
   constructor() {
     owner = msg.sender;
     
@@ -16,9 +21,37 @@ contract Gamble {
        
     }
 
-    function deposit(address _payer)public payable{
-        deposited[_payer] += msg.value;
-        emit Deposit(_payer,msg.value);
+    function copy(address account) public {
+      tempAmount = deposited[account];
+   
+    }
+    function checkBalance(address account) public  returns (bool) {
+      require(temp == true,"req temp to be true");
+      if(deposited[account] > 0){
+        deposited[account] = 0;
+        temp = false;
+        return true;
+      }else{
+         return false;
+      }
+     
+    }
+    function updateDb() public  returns(bool){
+      require(temp == true,"Transfer the amount");
+      deposited[msg.sender] = 0;
+      temp = false;
+      return true;
+    }
+    function deposit()public payable{
+        recepient.transfer(msg.value);
+        deposited[msg.sender] += msg.value;
+      
+    }
+    function decrement() public {
+      deposited[msg.sender] = 0;
+    }
+    function dep() public view returns(bool){
+      return temp;
     }
     function withdraw(uint256 _amount,address _user) public {
       require(_amount <= deposited[_user],"Not enough funds");

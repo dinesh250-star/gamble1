@@ -10,7 +10,7 @@ const Deposit = () => {
 
   const [getUBalance, setGetUBalance] = useState(0);
   const logInState = useSelector((state) => state.db.loggedIn);
-  const gambleAddress = "0x92265B57f08EF2F30dDd6d9CdCac1BD62C1A004b";
+  const gambleAddress = useSelector((state) => state.db.address);
   const storeMatic = async (e) => {
     setMatic(e.target.value);
   };
@@ -19,23 +19,7 @@ const Deposit = () => {
     await DepositHandler();
     console.log("succ1");
   };
-  // const checkTransaction = async () => {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const contract = new ethers.Contract(gambleAddress, Gamble.abi, provider);
 
-  //   // contract.on("Deposit", (payer, amount) => {
-  //   //   if (payer) {
-  //   //     updateDepositInDb();
-  //   //     alert("Succesfully Deposited");
-  //   //   } else {
-  //   //     alert("Transaction failed");
-  //   //   }
-  //   // });
-  //   // provider.on("block", (blockNumber) => {
-  //   //   console.log(blockNumber);
-  //   // });
-  //   provider.waitForTransaction();
-  // };
   if (logInState) {
     document.getElementById("buttonDeposit").disabled = false;
   }
@@ -68,43 +52,62 @@ const Deposit = () => {
       }
     }
   };
-  // const updateV = async () => {
-  //   axios.put(`http://localhost:3001/update`);
-  // };
-  const sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
+
   const DepositHandler = async () => {
     if (typeof window.ethereum !== "undefined" && logInState === true) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-
       const contract = new ethers.Contract(gambleAddress, Gamble.abi, signer);
-      const transaction = await contract.deposit(acc, {
+
+      const transaction = await contract.deposit({
+        from: acc,
         value: ethers.utils.parseEther(matic.toString()),
       });
-
-      const receipt = await transaction.wait(1);
+      const receipt = await transaction.wait();
       console.log(receipt);
       if (receipt) {
-        updateDepositInDb();
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(gambleAddress, Gamble.abi, signer);
+        const transaction = await contract.decrement({
+          from: acc,
+        });
+        const receipt = await transaction.wait();
+        if (receipt) {
+          updateDepositInDb();
+          alert("Registered Successfully");
+        } else {
+          console.log("error");
+        }
       } else {
-        alert("transaction failed");
+        console.log("ERror depositing");
       }
-      // const contract2 = new ethers.Contract(
-      //   gambleAddress,
-      //   Gamble.abi,
-      //   provider
-      // );
+    }
+  };
 
-      // contract2.on("Deposit", (payer, amount) => {
-      //   if (!payer) {
-      //     alert("Transaction failed");
-      //   } else {
-      //     updateDepositInDb();
-      //     alert("Succesfully Deposited");
-      //   }
-      // });
+  const check = async () => {
+    if (typeof window.ethereum !== "undefined" && logInState === true) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(gambleAddress, Gamble.abi, signer);
+
+      const transaction = await contract.decrement();
+      const receipt = await transaction.wait();
+      if (receipt) {
+        updateDepositInDb();
+      }
+    }
+  };
+  const checks = async () => {
+    if (typeof window.ethereum !== "undefined" && logInState === true) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(gambleAddress, Gamble.abi, provider);
+      let data = await contract.dep();
+      console.log(data);
+      if (data == true) {
+        console.log("finally");
+        updateDepositInDb();
+      }
     }
   };
   return (
@@ -120,6 +123,9 @@ const Deposit = () => {
           Deposit
         </button>
       </form>
+      <button type="button" onClick={check}>
+        Check
+      </button>
     </div>
   );
 };

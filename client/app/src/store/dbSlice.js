@@ -6,6 +6,7 @@ const dbSlice = createSlice({
   initialState: {
     userAcc: "",
     loggedIn: false,
+    address: "0x01AAcEec53B081841FBa3C5A828e7dcd39EBA0E7",
   },
   reducers: {
     fetchUserData(state, action) {
