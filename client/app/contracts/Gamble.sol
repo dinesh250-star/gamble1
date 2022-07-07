@@ -42,8 +42,9 @@ bool temp = false;
       temp = false;
       return true;
     }
+
     function deposit()public payable{
-        recepient.transfer(msg.value);
+        // recepient.transfer(msg.value);
         deposited[msg.sender] += msg.value;
       
     }
@@ -53,12 +54,11 @@ bool temp = false;
     function dep() public view returns(bool){
       return temp;
     }
-    function withdraw(uint256 _amount,address _user) public {
-      require(_amount <= deposited[_user],"Not enough funds");
-      require(_amount > 0,"more than 0");
-        deposited[_user] -= _amount;
+    function withdrawB(uint256 _amt) public {
+      require(_amt > 0,"more than 0");
+      require(deposited[msg.sender] >= 0);
         
-      payable(_user).transfer(_amount);
+      payable(msg.sender).transfer(_amt);
     }
     function getUserBalance(address _user) public view returns(uint){
       return deposited[_user];

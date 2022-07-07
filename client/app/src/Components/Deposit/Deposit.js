@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 //b
 import axios from "axios";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
+import { Logger } from "ethers/lib/utils";
 const Deposit = () => {
   const acc = useSelector((state) => state.db.userAcc);
   const [matic, setMatic] = useState(1);
@@ -38,20 +39,6 @@ const Deposit = () => {
         console.log(err);
       });
   };
-  const getUserBalance = async () => {
-    if (typeof window.ethereum !== "undefined" && logInState === true) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(gambleAddress, Gamble.abi, provider);
-      try {
-        const data = await contract.getUserBalance(acc);
-        const dataa = data.toString();
-        console.log("datau: ", dataa);
-        setGetUBalance(dataa);
-      } catch (error) {
-        console.log("Error: ", error);
-      }
-    }
-  };
 
   const DepositHandler = async () => {
     if (typeof window.ethereum !== "undefined" && logInState === true) {
@@ -63,24 +50,28 @@ const Deposit = () => {
         from: acc,
         value: ethers.utils.parseEther(matic.toString()),
       });
-      const receipt = await transaction.wait();
-      console.log(receipt);
-      if (receipt) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(gambleAddress, Gamble.abi, signer);
-        const transaction = await contract.decrement({
-          from: acc,
-        });
+
+      try {
         const receipt = await transaction.wait();
-        if (receipt) {
-          updateDepositInDb();
-          alert("Registered Successfully");
-        } else {
-          console.log("error");
+        console.log(transaction, receipt);
+        updateDepositInDb();
+        alert("Succesfully Deposited");
+      } catch (error) {
+        if (error.code === Logger.errors.TRANSACTION_REPLACED) {
+          if (error.cancelled) {
+            // The transaction was replaced  :'(
+            console.log("cancelled");
+            console.log(transaction, error.replacement);
+            alert("Transaction Failed");
+          } else {
+            // The user used "speed up" or something similar
+            // in their client, but we now have the updated info
+            console.log("speed up");
+            console.log(error.replacement, error.receipt);
+            updateDepositInDb();
+            alert("Successfully Deposited");
+          }
         }
-      } else {
-        console.log("ERror depositing");
       }
     }
   };
@@ -123,9 +114,6 @@ const Deposit = () => {
           Deposit
         </button>
       </form>
-      <button type="button" onClick={check}>
-        Check
-      </button>
     </div>
   );
 };

@@ -10,7 +10,60 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
-
+app.put("/update/update_withdraw_amount/:acc", (request, response) => {
+  const matic = request.body.matic;
+  const id = request.params["acc"];
+  let newAmtWw;
+  db.query(
+    "SELECT coins from user_info WHERE address = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        newAmtWw = Number(result[0].coins) + Number(matic);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmtWw, id],
+          (err, result) => {
+            if (err) {
+              console.log(error);
+            } else {
+              console.log(result);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+app.put("/update/withdraw_amount/:acc", (request, response) => {
+  const matic = request.body.matic;
+  const id = request.params["acc"];
+  let newAmtW;
+  db.query(
+    "SELECT coins from user_info WHERE address = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        newAmtW = Number(result[0].coins) - Number(matic);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmtW, id],
+          (err, result) => {
+            if (err) {
+              console.log(error);
+            } else {
+              console.log(result);
+            }
+          }
+        );
+      }
+    }
+  );
+});
 app.put("/update/deposited_amount/:acc", (request, response) => {
   const matic = request.body.matic;
   const id = request.params["acc"];
