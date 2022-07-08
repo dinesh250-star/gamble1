@@ -6,6 +6,7 @@ import Deposit from "./Components/Deposit/Deposit";
 import Withdraw from "./Components/Withdraw/Withdraw";
 import CreateMatch from "./Components/CoinGame/CreateMatch";
 import Balance from "./Components/Balance/Balance";
+import DisplayMatch from "./Components/DisplayMatches/DisplayMatch";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Withdraw />
       <Balance />
       <CreateMatch />
+      <DisplayMatch />
     </div>
   );
 }

@@ -10,6 +10,53 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
+
+app.delete;
+app.get("/yourmatches/:acc", (req, res) => {
+  const acc = req.params["acc"];
+  db.query(
+    "SELECT * from match_info WHERE creator = ? AND state = ?",
+    [acc, "pending"],
+    (err, result) => {
+      if (result) {
+        console.log(result);
+        res.send([result[0].creator, result[0].creator_bet, result[0].amount]);
+      } else {
+        res.send(["not found", "not found", "not found"]);
+      }
+    }
+  );
+});
+app.post("/createGame", (req, res) => {
+  const acc = req.body.acc;
+  const value = req.body.value;
+  const coin = req.body.coin;
+  db.query(
+    "INSERT INTO match_info (creator,creator_bet,joiner,joiner_bet,amount,state,winner,winning_toss) VALUES(?,?,?,?,?,?,?,?)",
+    [acc, coin, "", "", value, "pending", "", ""],
+    (err, result) => {
+      if (result) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    }
+  );
+});
+app.get("/games/:acc", (req, res) => {
+  const acc = req.params["acc"];
+  db.query(
+    "SELECT * from match_info WHERE creator = ? AND state = ?",
+    [acc, "pending"],
+    (err, result) => {
+      if (result.length == 0) {
+        res.send(true);
+      } else {
+        res.send(false);
+      }
+    }
+  );
+});
 app.get("/balance/:acc", (req, res) => {
   const acc = req.params["acc"];
   db.query(
@@ -124,6 +171,7 @@ app.post("/withdraw", (req, res) => {
     }
   );
 });
+
 app.post("/registration", (req, res) => {
   const userAccount = req.body.userAccount;
 
@@ -132,8 +180,10 @@ app.post("/registration", (req, res) => {
     [userAccount],
     (err, result) => {
       if (result.length > 0) {
+        res.send(true);
         return;
       } else {
+        res.send(false);
         db.query(
           "INSERT INTO user_info (address,coins) VALUES(?,?)",
           [userAccount, 0],

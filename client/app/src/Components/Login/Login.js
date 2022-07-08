@@ -20,6 +20,7 @@ const Login = () => {
   }, []);
   async function requestAccount() {
     if (window.ethereum) {
+      let resp;
       console.log("detected");
 
       try {
@@ -31,6 +32,7 @@ const Login = () => {
         Axios.post("http://localhost:3001/registration", {
           userAccount: accounts[0],
         });
+
         dispatch(dbActions.logIn());
         dispatch(dbActions.userAccount(accounts[0]));
       } catch (error) {
@@ -43,14 +45,12 @@ const Login = () => {
   const connectMetamask = async () => {
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
-    
     }
   };
   return (
     <div>
       <button onClick={connectMetamask}>Connect To Metamask</button>
       <h1>Connected Wallet: {userAccount}</h1>
-   
     </div>
   );
 };
