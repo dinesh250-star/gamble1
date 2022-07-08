@@ -1,13 +1,15 @@
 import axios from "axios";
 import { Logger } from "ethers/lib/utils";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
+import { dbActions } from "../../store/dbSlice";
 const Withdraw = () => {
   const [wValue, setWValue] = useState(1);
   const [withdrawB, setWithdrawB] = useState(false);
   const logInState = useSelector((state) => state.db.loggedIn);
+  const dispatch = useDispatch();
   const acc = useSelector((state) => state.db.userAcc);
   const gambleAddress = useSelector((state) => state.db.address);
   if (logInState) {
@@ -68,6 +70,8 @@ const Withdraw = () => {
           console.log(transaction, receipt);
 
           alert("Successful Withdraw");
+          dispatch(dbActions.withdrawListener());
+          setWValue(1);
         } catch (error) {
           if (error.code === Logger.errors.TRANSACTION_REPLACED) {
             if (error.cancelled) {
@@ -82,6 +86,8 @@ const Withdraw = () => {
               console.log("speed up");
               console.log(error.replacement, error.receipt);
               alert("Successful Withdraw");
+              dispatch(dbActions.withdrawListener());
+              setWValue(1);
             }
           }
         }

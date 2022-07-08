@@ -10,9 +10,23 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
-app.put("/update/update_withdraw_amount/:acc", (request, response) => {
-  const matic = request.body.matic;
-  const id = request.params["acc"];
+app.get("/balance/:acc", (req, res) => {
+  const acc = req.params["acc"];
+  db.query(
+    "SELECT coins from user_info WHERE address = ?",
+    [acc],
+    (err, result) => {
+      if (result) {
+        res.send([result[0].coins]);
+      } else {
+        console.log("error");
+      }
+    }
+  );
+});
+app.put("/update/update_withdraw_amount/:acc", (req, res) => {
+  const matic = req.body.matic;
+  const id = req.params["acc"];
   let newAmtWw;
   db.query(
     "SELECT coins from user_info WHERE address = ?",

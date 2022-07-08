@@ -4,6 +4,8 @@ import Axios from "axios";
 import Login from "./Components/Login/Login";
 import Deposit from "./Components/Deposit/Deposit";
 import Withdraw from "./Components/Withdraw/Withdraw";
+import CreateMatch from "./Components/CoinGame/CreateMatch";
+import Balance from "./Components/Balance/Balance";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Login />
       <Deposit />
       <Withdraw />
+      <Balance />
+      <CreateMatch />
     </div>
   );
 }

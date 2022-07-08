@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { ethers } from "ethers";
-import { useSelector } from "react-redux";
-//b
+import { useDispatch, useSelector } from "react-redux";
+import { dbActions } from "../../store/dbSlice";
 import axios from "axios";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
 import { Logger } from "ethers/lib/utils";
 const Deposit = () => {
   const acc = useSelector((state) => state.db.userAcc);
   const [matic, setMatic] = useState(1);
-
+  const dispatch = useDispatch();
   const [getUBalance, setGetUBalance] = useState(0);
   const logInState = useSelector((state) => state.db.loggedIn);
   const gambleAddress = useSelector((state) => state.db.address);
@@ -56,6 +56,8 @@ const Deposit = () => {
         console.log(transaction, receipt);
         updateDepositInDb();
         alert("Succesfully Deposited");
+        dispatch(dbActions.depositListener());
+        setMatic(1);
       } catch (error) {
         if (error.code === Logger.errors.TRANSACTION_REPLACED) {
           if (error.cancelled) {
@@ -70,6 +72,8 @@ const Deposit = () => {
             console.log(error.replacement, error.receipt);
             updateDepositInDb();
             alert("Successfully Deposited");
+            dispatch(dbActions.depositListener());
+            setMatic(1);
           }
         }
       }
