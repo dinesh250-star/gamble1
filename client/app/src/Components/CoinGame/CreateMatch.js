@@ -43,18 +43,7 @@ const CreateMatch = () => {
             })
             .then((res) => {
               dispatch(dbActions.increment());
-              setGame(true);
-              axios
-                .get(`http://localhost:3001/yourmatches/${acc}`)
-                .then((res) => {
-                  if (res.data[0] == "not found") {
-                    setNoDisplay(true);
-                  } else {
-                    setCreator(res.data[0]);
-                    setCreatorBet(res.data[1]);
-                    setAmounts(res.data[2]);
-                  }
-                });
+
               alert("Game created");
             });
         } else {
@@ -71,24 +60,6 @@ const CreateMatch = () => {
   const amount = (e) => {
     setBet(e.target.value);
   };
-  const deleteHandler = async (e) => {
-    axios.delete(`http://localhost:3001/delete/${acc}`).then((res) => {
-      setDel(del + 1);
-      setGame(false);
-      alert("Deleted Succesfully");
-    });
-  };
-  const yourMatch = (
-    <div>
-      <ul>
-        <li>{creator}</li>
-        <li>{creatorBet}</li>
-        <li>{amounts}</li>
-      </ul>
-      <h1>vs</h1>
-      <button onClick={deleteHandler}>Cancel</button>
-    </div>
-  );
 
   return (
     <div>
@@ -108,7 +79,6 @@ const CreateMatch = () => {
           Create a Game
         </button>
       </form>
-      {game && yourMatch}
     </div>
   );
 };

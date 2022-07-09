@@ -41,6 +41,20 @@ app.get("/yourmatches/:acc", (req, res) => {
     }
   );
 });
+app.get("/othermatches/:acc", (req, res) => {
+  const acc = req.params["acc"];
+  db.query(
+    "SELECT * from match_info WHERE creator != ? AND state = ?",
+    [acc, "pending"],
+    (err, result) => {
+      if (result) {
+        res.send(result);
+      } else {
+        res.send(["not found", "not found", "not found"]);
+      }
+    }
+  );
+});
 app.post("/createGame", (req, res) => {
   const acc = req.body.acc;
   const value = req.body.value;
