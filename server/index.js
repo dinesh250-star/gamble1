@@ -10,6 +10,97 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
+app.put("/updateState/:id", (request, response) => {
+  const id = request.params["id"];
+  const joiner = request.body.joiner;
+  const winner = request.body.winner;
+  const winning_toss = request.body.winning_toss;
+
+  db.query(
+    "UPDATE match_info SET joiner = ? ,state = ? , winner = ?, winning_toss = ? WHERE id = ?",
+    [joiner, "completed", winner, winning_toss, id],
+    (err, result) => {
+      if (err) {
+        response.send(false);
+        console.log(err);
+      } else {
+        console.log(result);
+        response.send(true);
+      }
+    }
+  );
+});
+app.put("/updateBal", (request, response) => {
+  const winner = request.body.winner;
+  const loser = request.body.loser;
+  const amount = request.body.amount;
+  let newAmount = amount * 2 * (95 / 100);
+  let loserAmount;
+  db.query(
+    "SELECT coins FROM user_info WHERE address = ?",
+    [winner],
+    (err, result) => {
+      if (err) {
+        res.send(false);
+        console.log(err);
+      } else {
+        console.log(newAmount);
+        console.log(result[0].coins);
+        newAmt = Number(result[0].coins) + Number(newAmount);
+        console.log(newAmt);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmt, winner],
+          (err, result) => {
+            if (err) {
+              res.send(false);
+              console.log(err);
+            } else {
+              db.query(
+                "SELECT coins FROM user_info WHERE address = ?",
+                [loser],
+                (err, result) => {
+                  if (err) {
+                    res.send(false);
+                    console.log(error);
+                  } else {
+                    console.log(result[0].coins);
+                    loserAmount = Number(result[0].coins) - Number(amount);
+                    db.query(
+                      "UPDATE user_info SET coins = ? WHERE address = ?",
+                      [loserAmount, loser],
+                      (err, result) => {
+                        if (err) {
+                          res.send(false);
+                          console.log(error);
+                        } else {
+                          res.send(true);
+                          console.log("success");
+                        }
+                      }
+                    );
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    }
+  );
+});
+app.get("/matchdetails/:id", (req, res) => {
+  const id = req.params["id"];
+  db.query("SELECT * from match_info WHERE id = ?", [id], (err, result) => {
+    if (result) {
+      console.log("s");
+      res.send(result);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
 app.put("/revertfunds", (request, response) => {
   const id = request.body.acc;
   const matic = request.body.value;

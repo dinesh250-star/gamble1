@@ -20,6 +20,7 @@ const DisplayMatch = () => {
   const [responser, setResponser] = useState();
   const [d, setD] = useState(false);
   const [disableB, setDisableB] = useState(false);
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
     if (logIn) {
       fetchYourMatch();
@@ -29,6 +30,7 @@ const DisplayMatch = () => {
   const fetchYourMatch = async () => {
     axios.get(`http://localhost:3001/yourmatches/${acc}`).then((res) => {
       if (res.data[0] == "not found") {
+        console.log("e");
         setNoDisplay(true);
         setDisableB(true);
       } else {
@@ -97,7 +99,98 @@ const DisplayMatch = () => {
   //   if (logIn && reload) {
   //     fetchYourMatch();
   //   }
-  const joinHandler = async () => {};
+  const joinHandler = async (e) => {
+    const id = e.target.value;
+    await axios.get(`http://localhost:3001/matchdetails/${id}`).then((res) => {
+      if (res.data == false) {
+        alert("Match details not found");
+      } else {
+        console.log(res.data[0]);
+        const id = res.data[0].id;
+        const creator_bet = res.data[0].creator_bet;
+        const creator = res.data[0].creator;
+        const amount = res.data[0].amount;
+
+        axios.get(`http://localhost:3001/balance/${acc}`).then((response) => {
+          // setBalance(response.data[0]);
+          const joiner_balance = response.data[0];
+          if (joiner_balance >= amount) {
+            // algo
+            const a = Math.floor(Math.random() * 10);
+            //if even then heads or else tails;
+            let result = "Error";
+            if (a % 2 === 0) {
+              result = "Heads";
+            } else {
+              result = "Tails";
+            }
+            console.log(result);
+
+            if (result == creator_bet) {
+              console.log("creator wins");
+              axios
+                .put(`http://localhost:3001/updateState/${id}`, {
+                  joiner: acc,
+                  winner: creator,
+                  winning_toss: result,
+                })
+                .then((res) => {
+                  if (res.data == true) {
+                    console.log("match complete");
+                    axios
+                      .put(`http://localhost:3001/updateBal`, {
+                        winner: creator,
+                        loser: acc,
+                        amount: amount,
+                      })
+                      .then((res) => {
+                        if (res.data == true) {
+                          console.log("update done");
+                        } else {
+                          console.log("eror");
+                        }
+                      });
+                  } else {
+                    alert("failed");
+                  }
+                });
+            } else {
+              // joiner wins
+              console.log("joiner wins");
+              axios
+                .put(`http://localhost:3001/updateState/${id}`, {
+                  joiner: acc,
+                  winner: acc,
+                  winning_toss: result,
+                })
+                .then((res) => {
+                  if (res.data == true) {
+                    console.log("match complete");
+                    axios
+                      .put(`http://localhost:3001/updateBal`, {
+                        winner: acc,
+                        loser: creator,
+                        amount: amount,
+                      })
+                      .then((res) => {
+                        if (res.data == true) {
+                          console.log("update done");
+                        } else {
+                          console.log("eror");
+                        }
+                      });
+                  } else {
+                    alert("failed");
+                  }
+                });
+            }
+          } else {
+            alert("not enough bet amt");
+          }
+        });
+      }
+    });
+  };
   return (
     <div>
       <h1>Your matches</h1>
@@ -115,7 +208,9 @@ const DisplayMatch = () => {
                   <li>{r.amount}</li>
 
                   <h1>vs</h1>
-                  <button onClick={joinHandler}>Join</button>
+                  <button onClick={joinHandler} value={r.id}>
+                    Join
+                  </button>
                 </ul>
               </div>
             );
