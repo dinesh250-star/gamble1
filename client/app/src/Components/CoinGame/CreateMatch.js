@@ -42,9 +42,21 @@ const CreateMatch = () => {
               value: bet,
             })
             .then((res) => {
-              dispatch(dbActions.increment());
-
-              alert("Game created");
+              if (res.data == true) {
+                axios
+                  .put(`http://localhost:3001/updatefunds`, {
+                    acc: acc,
+                    value: bet,
+                  })
+                  .then((res) => {
+                    if (res.data == true) {
+                      dispatch(dbActions.increment());
+                      alert("Game created");
+                    } else {
+                      alert("error");
+                    }
+                  });
+              }
             });
         } else {
           alert("Already game created");

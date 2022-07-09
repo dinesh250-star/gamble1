@@ -13,12 +13,13 @@ const DisplayMatch = () => {
   const [creatorO, setCreatorO] = useState("-");
   const [creatorBetO, setCreatorBetO] = useState("-");
   const [amountO, setAmountO] = useState(0);
-  const [del, setDel] = useState(0);
+  const [del, setDel] = useState(false);
   const [noDisplay, setNoDisplay] = useState(false);
   const [noDisplayO, setNoDisplayO] = useState(false);
   const dispatch = useDispatch();
   const [responser, setResponser] = useState();
   const [d, setD] = useState(false);
+  const [disableB, setDisableB] = useState(false);
   useEffect(() => {
     if (logIn) {
       fetchYourMatch();
@@ -29,6 +30,7 @@ const DisplayMatch = () => {
     axios.get(`http://localhost:3001/yourmatches/${acc}`).then((res) => {
       if (res.data[0] == "not found") {
         setNoDisplay(true);
+        setDisableB(true);
       } else {
         setCreator(res.data[0]);
         setCreatorBet(res.data[1]);
@@ -40,9 +42,22 @@ const DisplayMatch = () => {
 
   const deleteHandler = async (e) => {
     axios.delete(`http://localhost:3001/delete/${acc}`).then((res) => {
-      setDel(del + 1);
-      setD(false);
-      alert("Deleted Succesfully");
+      if (res.data == true) {
+        axios
+          .put(`http://localhost:3001/revertfunds`, {
+            acc: acc,
+            value: amount,
+          })
+          .then((res) => {
+            if (res.data == true) {
+              setD(false);
+              dispatch(dbActions.increment());
+              alert("Deleted Succesfully");
+            } else {
+              alert("error rev");
+            }
+          });
+      }
     });
   };
   let otherMatch = <h1>yes</h1>;
@@ -60,6 +75,11 @@ const DisplayMatch = () => {
       }
     });
   };
+  if (logIn && disableB) {
+    document.addEventListener("DOMContentLoaded", function (event) {
+      document.getElementById("Button").disabled = true;
+    });
+  }
   const yourMatch = (
     <div>
       <ul>
@@ -68,13 +88,16 @@ const DisplayMatch = () => {
         <li>{amount}</li>
       </ul>
       <h1>vs</h1>
-      <button onClick={deleteHandler}>Cancel</button>
+      <button onClick={deleteHandler} id="btn">
+        Cancel
+      </button>
     </div>
   );
 
   //   if (logIn && reload) {
   //     fetchYourMatch();
   //   }
+  const joinHandler = async () => {};
   return (
     <div>
       <h1>Your matches</h1>
@@ -92,7 +115,7 @@ const DisplayMatch = () => {
                   <li>{r.amount}</li>
 
                   <h1>vs</h1>
-                  <button onClick={deleteHandler}>Join</button>
+                  <button onClick={joinHandler}>Join</button>
                 </ul>
               </div>
             );

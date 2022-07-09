@@ -8,6 +8,7 @@ const Balance = () => {
   const withdraw = useSelector((state) => state.db.withdrawCount);
   const acc = useSelector((state) => state.db.userAcc);
   const logIn = useSelector((state) => state.db.loggedIn);
+  const reload = useSelector((state) => state.db.count);
   useEffect(() => {
     const balance = async () => {
       Axios.get(`http://localhost:3001/balance/${acc}`)
@@ -19,7 +20,7 @@ const Balance = () => {
     if (logIn) {
       balance();
     }
-  }, [acc, logIn, deposit, withdraw]);
+  }, [acc, logIn, deposit, withdraw, reload]);
   //   const balances = async () => {
   //     await Axios.get(`http://localhost:3001/balance/${acc}`).then((response) => {
   //       console.log(response.data[0]);

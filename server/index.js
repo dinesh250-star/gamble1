@@ -10,7 +10,74 @@ const db = mysql.createConnection({
   password: "",
   database: "gamble",
 });
-
+app.put("/revertfunds", (request, response) => {
+  const id = request.body.acc;
+  const matic = request.body.value;
+  console.log(id);
+  console.log(matic);
+  let newAmt;
+  db.query(
+    "SELECT coins FROM user_info WHERE address = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(matic);
+        console.log(result[0].coins);
+        newAmt = Number(result[0].coins) + Number(matic);
+        console.log(newAmt);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmt, id],
+          (err, result) => {
+            if (err) {
+              response.send(false);
+              console.log(err);
+            } else {
+              response.send(true);
+              console.log(result);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+app.put("/updatefunds", (request, response) => {
+  const id = request.body.acc;
+  const matic = request.body.value;
+  console.log(id);
+  console.log(matic);
+  let newAmt;
+  db.query(
+    "SELECT coins FROM user_info WHERE address = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(matic);
+        console.log(result[0].coins);
+        newAmt = Number(result[0].coins) - Number(matic);
+        console.log(newAmt);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmt, id],
+          (err, result) => {
+            if (err) {
+              response.send(false);
+              console.log(err);
+            } else {
+              response.send(true);
+              console.log(result);
+            }
+          }
+        );
+      }
+    }
+  );
+});
 app.delete("/delete/:acc", (req, res) => {
   const acc = req.params["acc"];
   db.query(
