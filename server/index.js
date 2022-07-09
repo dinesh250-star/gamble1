@@ -30,7 +30,41 @@ app.put("/updateState/:id", (request, response) => {
     }
   );
 });
-app.put("/updateBal", (request, response) => {
+app.put("/updateBall", (request, res) => {
+  const winner = request.body.winner;
+  const loser = request.body.loser;
+  const amount = request.body.amount;
+  let newAmount = amount * 2 * (95 / 100);
+  let loserAmount;
+  db.query(
+    "SELECT coins FROM user_info WHERE address = ?",
+    [winner],
+    (err, result) => {
+      if (err) {
+        res.send(false);
+        console.log(err);
+      } else {
+        console.log(newAmount);
+        console.log(result[0].coins);
+        newAmt = Number(result[0].coins) + Number(newAmount);
+        console.log(newAmt);
+        db.query(
+          "UPDATE user_info SET coins = ? WHERE address = ?",
+          [newAmt, winner],
+          (err, result) => {
+            if (err) {
+              res.send(false);
+              console.log(err);
+            } else {
+              res.send(true);
+            }
+          }
+        );
+      }
+    }
+  );
+});
+app.put("/updateBal", (request, res) => {
   const winner = request.body.winner;
   const loser = request.body.loser;
   const amount = request.body.amount;
@@ -218,8 +252,8 @@ app.post("/createGame", (req, res) => {
   const value = req.body.value;
   const coin = req.body.coin;
   db.query(
-    "INSERT INTO match_info (creator,creator_bet,joiner,joiner_bet,amount,state,winner,winning_toss) VALUES(?,?,?,?,?,?,?,?)",
-    [acc, coin, "", "", value, "pending", "", ""],
+    "INSERT INTO match_info (creator,creator_bet,joiner,amount,state,winner,winning_toss) VALUES(?,?,?,?,?,?,?)",
+    [acc, coin, "", value, "pending", "", ""],
     (err, result) => {
       if (result) {
         res.send(true);

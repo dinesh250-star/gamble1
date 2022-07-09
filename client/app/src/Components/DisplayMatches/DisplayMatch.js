@@ -145,6 +145,7 @@ const DisplayMatch = () => {
                       })
                       .then((res) => {
                         if (res.data == true) {
+                          dispatch(dbActions.increment());
                           console.log("update done");
                         } else {
                           console.log("eror");
@@ -167,13 +168,14 @@ const DisplayMatch = () => {
                   if (res.data == true) {
                     console.log("match complete");
                     axios
-                      .put(`http://localhost:3001/updateBal`, {
+                      .put(`http://localhost:3001/updateBall`, {
                         winner: acc,
-                        loser: creator,
+
                         amount: amount,
                       })
                       .then((res) => {
                         if (res.data == true) {
+                          dispatch(dbActions.increment());
                           console.log("update done");
                         } else {
                           console.log("eror");

@@ -21,7 +21,7 @@ const CreateMatch = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    let res;
+    let resp;
     await axios
       .post("http://localhost:3001/withdraw", {
         acc: acc,
@@ -29,10 +29,10 @@ const CreateMatch = () => {
       })
       .then((response) => {
         console.log(response.data);
-        res = response.data;
+        resp = response.data;
       });
 
-    if (res == true) {
+    if (resp == true) {
       await axios.get(`http://localhost:3001/games/${acc}`).then((response) => {
         if (response.data == true) {
           axios
