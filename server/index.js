@@ -11,15 +11,29 @@ const db = mysql.createConnection({
   database: "gamble",
 });
 
-app.delete;
+app.delete("/delete/:acc", (req, res) => {
+  const acc = req.params["acc"];
+  db.query(
+    "DELETE FROM match_info WHERE creator = ? AND state = ?",
+    [acc, "pending"],
+    (err, result) => {
+      if (result) {
+        console.log(result);
+        res.send(true);
+      } else {
+        console.log(result);
+        res.send(false);
+      }
+    }
+  );
+});
 app.get("/yourmatches/:acc", (req, res) => {
   const acc = req.params["acc"];
   db.query(
     "SELECT * from match_info WHERE creator = ? AND state = ?",
     [acc, "pending"],
     (err, result) => {
-      if (result) {
-        console.log(result);
+      if (result.length == 1) {
         res.send([result[0].creator, result[0].creator_bet, result[0].amount]);
       } else {
         res.send(["not found", "not found", "not found"]);
@@ -63,7 +77,7 @@ app.get("/balance/:acc", (req, res) => {
     "SELECT coins from user_info WHERE address = ?",
     [acc],
     (err, result) => {
-      if (result) {
+      if (result.length == 1) {
         res.send([result[0].coins]);
       } else {
         console.log("error");
@@ -183,7 +197,6 @@ app.post("/registration", (req, res) => {
         res.send(true);
         return;
       } else {
-        res.send(false);
         db.query(
           "INSERT INTO user_info (address,coins) VALUES(?,?)",
           [userAccount, 0],
@@ -193,6 +206,7 @@ app.post("/registration", (req, res) => {
             }
           }
         );
+        res.send(false);
       }
     }
   );
