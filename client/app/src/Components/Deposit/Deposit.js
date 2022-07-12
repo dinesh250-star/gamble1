@@ -56,7 +56,7 @@ const Deposit = () => {
         console.log(transaction, receipt);
         updateDepositInDb();
         alert("Succesfully Deposited");
-        dispatch(dbActions.depositListener());
+        dispatch(dbActions.increment());
         setMatic(1);
       } catch (error) {
         if (error.code === Logger.errors.TRANSACTION_REPLACED) {
@@ -72,7 +72,7 @@ const Deposit = () => {
             console.log(error.replacement, error.receipt);
             updateDepositInDb();
             alert("Successfully Deposited");
-            dispatch(dbActions.depositListener());
+            dispatch(dbActions.increment());
             setMatic(1);
           }
         }
