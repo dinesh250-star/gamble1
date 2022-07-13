@@ -28,7 +28,7 @@ const Balance = () => {
   //   };
   return (
     <div>
-      <h1>{balance}</h1>
+      <h1>Balance - {balance} MATIC</h1>
     </div>
   );
 };

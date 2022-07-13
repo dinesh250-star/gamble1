@@ -14,7 +14,7 @@ function App() {
       <Login />
       <Deposit />
       <Withdraw />
-      <Balance />
+
       <CreateMatch />
       <DisplayMatch />
     </div>

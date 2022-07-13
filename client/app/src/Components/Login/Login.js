@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Axios from "axios";
 import { dbActions } from "../../store/dbSlice";
-
+import Balance from "../Balance/Balance";
+import LoginCss from "./Login.module.css";
 const Login = () => {
   const [userAccount, setUserAccount] = useState("");
   const dispatch = useDispatch();
@@ -48,10 +49,25 @@ const Login = () => {
     }
   };
   return (
-    <div>
-      <button onClick={connectMetamask}>Connect To Metamask</button>
-      <h1>Connected Wallet: {userAccount}</h1>
-    </div>
+    <>
+      <nav className={LoginCss.navbar}>
+        <div className={LoginCss.el1}>
+          <h1>Gaming Arena</h1>
+        </div>
+        <div className={LoginCss.el2}>
+          <Balance />
+        </div>
+        <div className={LoginCss.el3}>
+          {userAccount ? (
+            <h1>{userAccount}</h1>
+          ) : (
+            <button onClick={connectMetamask} className={LoginCss.connectAcc}>
+              Connect Account
+            </button>
+          )}
+        </div>
+      </nav>
+    </>
   );
 };
 export default Login;
