@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-
+import CreateMatchCss from "./CreateMatch.module.css";
 import { dbActions } from "../../store/dbSlice";
 const CreateMatch = () => {
   const [coin, setCoin] = useState("Heads");
@@ -15,8 +15,10 @@ const CreateMatch = () => {
   const [del, setDel] = useState(0);
   const [noDisplay, setNoDisplay] = useState(false);
   const logInState = useSelector((state) => state.db.loggedIn);
+  let checkC;
   if (logInState) {
     document.getElementById("buttonCreate").disabled = false;
+    checkC = CreateMatchCss.buttone;
   }
 
   const submitHandler = async (e) => {
@@ -74,24 +76,35 @@ const CreateMatch = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <select name="Coin" required onChange={coinValue}>
-          <option value="Heads">Heads</option>
-          <option value="Tails">Tails</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Enter your bet"
-          required
-          value={bet}
-          onChange={amount}
-        ></input>
-        <button type="submit" id="buttonCreate" disabled>
-          Create a Game
-        </button>
-      </form>
-    </div>
+    <>
+      <div className={CreateMatchCss.forms}>
+        <form onSubmit={submitHandler} className={CreateMatchCss.el1}>
+          <select
+            name="Coin"
+            required
+            onChange={coinValue}
+            className={CreateMatchCss.sel}
+          >
+            <option value="Heads">Heads</option>
+            <option value="Tails">Tails</option>
+          </select>
+          <input
+            type="number"
+            placeholder="Enter your bet"
+            required
+            className={CreateMatchCss.inputfield}
+            value={bet}
+            onChange={amount}
+            step="1"
+            min="1"
+          ></input>
+          <button type="submit" id="buttonCreate" className={checkC} disabled>
+            Create a Game
+          </button>
+        </form>
+      </div>
+      <hr className={CreateMatchCss.ht}></hr>
+    </>
   );
 };
 export default CreateMatch;

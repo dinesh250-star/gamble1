@@ -1,6 +1,6 @@
 .forms {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   background-color: black;
 
   padding: 15px;
@@ -10,11 +10,6 @@
   grid-column-end: 2;
   color: rgb(206, 21, 185);
 }
-.el2 {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  color: rgb(206, 21, 185);
-}
 .inputfield {
   border: 1px solid rgb(206, 21, 185);
   background-color: black;
@@ -22,14 +17,25 @@
   text-align: center;
   font-family: "Comic Neue", cursive;
 }
-.buttond {
+.buttone {
   background-color: black;
   color: white;
   border: 1px solid rgb(206, 21, 185);
   font-family: "Comic Neue", cursive;
 }
-.buttond:hover {
+.buttone:hover {
   box-shadow: 0 8px 16px 0 rgba(248, 1, 194, 0.929),
     0 6px 20px 0 rgb(206, 21, 185);
 }
+hr {
+  margin: 0;
 
+  background-color: rgb(206, 21, 185);
+}
+.sel {
+  border: 1px solid rgb(206, 21, 185);
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: "Comic Neue", cursive;
+}
