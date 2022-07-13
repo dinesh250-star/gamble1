@@ -230,7 +230,7 @@ const DisplayMatch = () => {
             responser.map((r) => {
               return (
                 <div key={r.id} className={DisplayMatchesCss.om}>
-                  <ul>
+                  <ul className={DisplayMatchesCss.pos}>
                     <li>{r.creator}</li>
                     <li>{r.creator_bet}</li>
                     <li>{r.amount} MATIC</li>

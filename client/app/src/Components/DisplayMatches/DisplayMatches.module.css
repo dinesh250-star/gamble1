@@ -26,13 +26,12 @@ ul {
 }
 .ym {
   color: white;
-  background-color: rgb(0, 0, 0);
+
   display: inline-block;
-  border: 3px solid rgb(206, 21, 185);
+  border: 2px solid rgb(206, 21, 185);
   border-radius: 20px;
   margin-top: 1rem;
   margin-bottom: 2rem;
-  z-index: 100;
 }
 .btn {
   margin-top: 0.8rem;
@@ -48,11 +47,10 @@ ul {
 }
 .pos {
   position: relative;
-  margin-left: -2.5rem;
+  margin-left: 0rem;
+  margin-right: 1.7rem;
 }
-.bgmi {
-  background-color: #000000;
-}
+
 .om {
   color: white;
 
