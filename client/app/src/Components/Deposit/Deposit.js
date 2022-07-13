@@ -5,6 +5,8 @@ import { dbActions } from "../../store/dbSlice";
 import axios from "axios";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
 import { Logger } from "ethers/lib/utils";
+import Withdraw from "../Withdraw/Withdraw";
+import DepositCss from "./Deposit.module.css";
 const Deposit = () => {
   const acc = useSelector((state) => state.db.userAcc);
   const [matic, setMatic] = useState(1);
@@ -20,9 +22,10 @@ const Deposit = () => {
     await DepositHandler();
     console.log("succ1");
   };
-
+  let checkC;
   if (logInState) {
     document.getElementById("buttonDeposit").disabled = false;
+    checkC = DepositCss.buttond;
   }
   const dataOfMatic = {
     matic: matic,
@@ -105,20 +108,28 @@ const Deposit = () => {
       }
     }
   };
+
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <input
-          type="number"
-          placeholder="Enter the matic"
-          onChange={storeMatic}
-          value={matic}
-        ></input>
-        <button type="submit" id="buttonDeposit" disabled>
-          Deposit
-        </button>
-      </form>
-    </div>
+    <>
+      <div className={DepositCss.forms}>
+        <form onSubmit={submitHandler} className={DepositCss.el1}>
+          <input
+            className={DepositCss.inputfield}
+            type="number"
+            placeholder="Enter the matic"
+            onChange={storeMatic}
+            value={matic}
+            min="1"
+            step="1"
+          ></input>
+          <button type="submit" id="buttonDeposit" className={checkC} disabled>
+            Deposit
+          </button>
+        </form>
+        <Withdraw className={DepositCss.el2} />
+      </div>
+      <hr></hr>
+    </>
   );
 };
 export default Deposit;

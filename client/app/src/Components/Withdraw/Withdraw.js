@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
 import Gamble from "../../artifacts/contracts/Gamble.sol/Gamble.json";
 import { dbActions } from "../../store/dbSlice";
+import WithdrawCss from "./Withdraw.module.css";
 const Withdraw = () => {
   const [wValue, setWValue] = useState(1);
   const [withdrawB, setWithdrawB] = useState(false);
@@ -12,8 +13,10 @@ const Withdraw = () => {
   const dispatch = useDispatch();
   const acc = useSelector((state) => state.db.userAcc);
   const gambleAddress = useSelector((state) => state.db.address);
+  let checkC;
   if (logInState) {
     document.getElementById("buttonWithdraw").disabled = false;
+    checkC = WithdrawCss.buttonw;
   }
   const changeValue = (e) => {
     setWValue(e.target.value);
@@ -102,10 +105,13 @@ const Withdraw = () => {
         <input
           type="number"
           placeholder="withdraw"
+          className={WithdrawCss.inputfield}
           value={wValue}
           onChange={changeValue}
+          min="1"
+          step="1"
         ></input>
-        <button type="submit" id="buttonWithdraw" disabled>
+        <button type="submit" id="buttonWithdraw" className={checkC} disabled>
           Withdraw
         </button>
       </form>

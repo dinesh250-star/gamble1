@@ -67,6 +67,7 @@ const Login = () => {
           )}
         </div>
       </nav>
+      <hr></hr>
     </>
   );
 };
