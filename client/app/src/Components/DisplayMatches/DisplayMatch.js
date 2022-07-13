@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-
+import DisplayMatchesCss from "./DisplayMatches.module.css";
 import { dbActions } from "../../store/dbSlice";
 const DisplayMatch = () => {
   const acc = useSelector((state) => state.db.userAcc);
@@ -21,6 +21,7 @@ const DisplayMatch = () => {
   const [d, setD] = useState(false);
   const [disableB, setDisableB] = useState(false);
   const [balance, setBalance] = useState(0);
+
   useEffect(() => {
     if (logIn) {
       fetchYourMatch();
@@ -83,22 +84,25 @@ const DisplayMatch = () => {
     });
   }
   const yourMatch = (
-    <div>
-      <ul>
-        <li>{creator}</li>
-        <li>{creatorBet}</li>
-        <li>{amount}</li>
-      </ul>
-      <h1>vs</h1>
-      <button onClick={deleteHandler} id="btn">
-        Cancel
-      </button>
+    <div className={DisplayMatchesCss.bgmi}>
+      <div className={DisplayMatchesCss.ym}>
+        <ul className={DisplayMatchesCss.pos}>
+          <li>{creator}</li>
+          <li>{creatorBet}</li>
+          <li>{amount} MATIC</li>
+        </ul>
+        <h1 className={DisplayMatchesCss.h1font}>vs</h1>
+        <button
+          onClick={deleteHandler}
+          id="btn"
+          className={DisplayMatchesCss.btn}
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 
-  //   if (logIn && reload) {
-  //     fetchYourMatch();
-  //   }
   const joinHandler = async (e) => {
     const id = e.target.value;
     await axios.get(`http://localhost:3001/matchdetails/${id}`).then((res) => {
@@ -128,6 +132,7 @@ const DisplayMatch = () => {
 
             if (result == creator_bet) {
               console.log("creator wins");
+              alert(`Result - ${result}, Creator wins`);
               axios
                 .put(`http://localhost:3001/updateState/${id}`, {
                   joiner: acc,
@@ -158,6 +163,7 @@ const DisplayMatch = () => {
             } else {
               // joiner wins
               console.log("joiner wins");
+              alert(`Result - ${result}, Joiner wins`);
               axios
                 .put(`http://localhost:3001/updateState/${id}`, {
                   joiner: acc,
@@ -194,34 +200,68 @@ const DisplayMatch = () => {
     });
   };
   return (
-    <div>
-      <h1>Your matches</h1>
-      {d ? yourMatch : <h1>No matches</h1>}
-
-      <h1>Other matches</h1>
+    <>
       <div>
-        {noDisplayO ? (
-          responser.map((r) => {
-            return (
-              <div key={r.id}>
-                <ul>
-                  <li>{r.creator}</li>
-                  <li>{r.creator_bet}</li>
-                  <li>{r.amount}</li>
+        <h1 className={DisplayMatchesCss.bg}>Matches</h1>
+        <hr></hr>
+        <h1 className={DisplayMatchesCss.bga}>Your matches</h1>
 
-                  <h1>vs</h1>
-                  <button onClick={joinHandler} value={r.id}>
-                    Join
-                  </button>
-                </ul>
-              </div>
-            );
-          })
+        {d ? (
+          yourMatch
         ) : (
-          <h1>No matches</h1>
+          <div>
+            <h1 className={DisplayMatchesCss.bj}>Currently no matches</h1>
+            <hr></hr>
+          </div>
         )}
+
+        <h1
+          style={{
+            color: "white",
+            backgroundColor: "black",
+            margin: "0",
+            padding: "2rem",
+          }}
+        >
+          Other matches
+        </h1>
+        <div className={DisplayMatchesCss.bgom}>
+          {noDisplayO ? (
+            responser.map((r) => {
+              return (
+                <div key={r.id} className={DisplayMatchesCss.om}>
+                  <ul>
+                    <li>{r.creator}</li>
+                    <li>{r.creator_bet}</li>
+                    <li>{r.amount} MATIC</li>
+
+                    <h1>vs</h1>
+                    <button
+                      onClick={joinHandler}
+                      value={r.id}
+                      className={DisplayMatchesCss.btn}
+                    >
+                      Join
+                    </button>
+                  </ul>
+                </div>
+              );
+            })
+          ) : (
+            <h1
+              style={{
+                color: "white",
+                backgroundColor: "black",
+                margin: "0",
+                padding: "2rem",
+              }}
+            >
+              Currently No matches
+            </h1>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default DisplayMatch;

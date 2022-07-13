@@ -21,40 +21,18 @@ bool temp = false;
        
     }
 
-    function copy(address account) public {
-      tempAmount = deposited[account];
-   
-    }
-    function checkBalance(address account) public  returns (bool) {
-      require(temp == true,"req temp to be true");
-      if(deposited[account] > 0){
-        deposited[account] = 0;
-        temp = false;
-        return true;
-      }else{
-         return false;
-      }
-     
-    }
-    function updateDb() public  returns(bool){
-      require(temp == true,"Transfer the amount");
-      deposited[msg.sender] = 0;
-      temp = false;
-      return true;
-    }
+
+
+
 
     function deposit()public payable{
         // recepient.transfer(msg.value);
         deposited[msg.sender] += msg.value;
       
     }
-    function decrement() public {
-      deposited[msg.sender] = 0;
-    }
-    function dep() public view returns(bool){
-      return temp;
-    }
-    function withdrawB(uint256 _amt) public {
+
+
+    function withdrawB(uint256 _amt) private {
       require(_amt > 0,"more than 0");
       require(deposited[msg.sender] >= 0);
         
