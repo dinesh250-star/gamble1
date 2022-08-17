@@ -1,0 +1,17 @@
+.inputfield {
+  border: 1px solid rgb(206, 21, 185);
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: "Comic Neue", cursive;
+}
+.buttonw {
+  background-color: black;
+  color: white;
+  border: 1px solid rgb(206, 21, 185);
+  font-family: "Comic Neue", cursive;
+}
+.buttonw:hover {
+  box-shadow: 0 8px 16px 0 rgba(248, 1, 194, 0.929),
+    0 6px 20px 0 rgb(206, 21, 185);
+}

@@ -1,0 +1,38 @@
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: start;
+  background-color: black;
+}
+.el1 {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  color: rgb(206, 21, 185);
+}
+.el2 {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  color: rgb(206, 21, 185);
+}
+.el3 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  color: rgb(206, 21, 185);
+}
+.connectAcc {
+  margin-top: 0.8rem;
+  border-radius: 20px 0 20px 0;
+  background-color: rgb(206, 21, 185);
+  color: rgb(255, 255, 255);
+  padding: 0.6rem;
+  font-family: "Comic Neue", cursive;
+}
+.connectAcc:hover {
+  box-shadow: 0 8px 16px 0 rgba(248, 1, 194, 0.929),
+    0 6px 20px 0 rgb(206, 21, 185);
+}
+hr {
+  margin: 0;
+
+  border: 1px solid rgb(206, 21, 185);
+}

@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Axios from "axios";
 import { dbActions } from "../../store/dbSlice";
-
+import Balance from "../Balance/Balance";
+import LoginCss from "./Login.module.css";
 const Login = () => {
   const [userAccount, setUserAccount] = useState("");
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Login = () => {
   }, []);
   async function requestAccount() {
     if (window.ethereum) {
+      let resp;
       console.log("detected");
 
       try {
@@ -31,6 +33,7 @@ const Login = () => {
         Axios.post("http://localhost:3001/registration", {
           userAccount: accounts[0],
         });
+
         dispatch(dbActions.logIn());
         dispatch(dbActions.userAccount(accounts[0]));
       } catch (error) {
@@ -43,15 +46,29 @@ const Login = () => {
   const connectMetamask = async () => {
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
-    
     }
   };
   return (
-    <div>
-      <button onClick={connectMetamask}>Connect To Metamask</button>
-      <h1>Connected Wallet: {userAccount}</h1>
-   
-    </div>
+    <>
+      <nav className={LoginCss.navbar}>
+        <div className={LoginCss.el1}>
+          <h1>Gaming Arena</h1>
+        </div>
+        <div className={LoginCss.el2}>
+          <Balance />
+        </div>
+        <div className={LoginCss.el3}>
+          {userAccount ? (
+            <h1>{userAccount}</h1>
+          ) : (
+            <button onClick={connectMetamask} className={LoginCss.connectAcc}>
+              Connect Account
+            </button>
+          )}
+        </div>
+      </nav>
+      <hr></hr>
+    </>
   );
 };
 export default Login;

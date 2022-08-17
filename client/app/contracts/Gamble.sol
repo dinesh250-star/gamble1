@@ -6,7 +6,12 @@ pragma solidity ^0.8.4;
 contract Gamble {
   address owner;
   mapping(address => uint256) public deposited;  
-  
+  event Deposit(address payer,uint256 amount);
+  event Copy(address account,uint256 amount);
+  event CheckBalance(address account,uint256 amount);
+  uint256 tempAmount;
+bool temp = false;
+  address payable public recepient = payable(0x1f16d5e592c32757AccE8EC799CBAa7D985570fF);
   constructor() {
     owner = msg.sender;
     
@@ -16,15 +21,22 @@ contract Gamble {
        
     }
 
-    function deposit(address _payer)public payable{
-        deposited[_payer] += msg.value;
+
+
+
+
+    function deposit()public payable{
+        // recepient.transfer(msg.value);
+        deposited[msg.sender] += msg.value;
+      
     }
-    function withdraw(uint256 _amount,address _user) public {
-      require(_amount <= deposited[_user],"Not enough funds");
-      require(_amount > 0,"more than 0");
-        deposited[_user] -= _amount;
+
+
+    function withdrawB(uint256 _amt) private {
+      require(_amt > 0,"more than 0");
+      require(deposited[msg.sender] >= 0);
         
-      payable(_user).transfer(_amount);
+      payable(msg.sender).transfer(_amt);
     }
     function getUserBalance(address _user) public view returns(uint){
       return deposited[_user];
